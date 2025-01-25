@@ -55,7 +55,7 @@ runs:
         context: ${{ inputs.docker-directory }}
         push: ${{ github.event_name != 'pull_request' }}
         provenance: false
-        platforms: {{ inputs.platform }}
+        platforms: ${{ inputs.platform }}
         tags: |
           ${{ steps.meta.outputs.tags }}
           ghcr.io/${{ inputs.image-name }}:latest
@@ -69,4 +69,5 @@ runs:
           ${{ steps.meta.outputs.tags }}
           ghcr.io/${{ inputs.image-name }}:latest
         DIGEST: ${{ steps.build-and-push.outputs.digest }}
+      shell: bash
       run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
