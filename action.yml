@@ -6,26 +6,22 @@ inputs:
     description: 'The directory containing the Dockerfile'
     required: true
     default: '.'
-    type: string
 
   image-name:
     description: 'The name of the Docker image'
     required: true
     default: null
-    type: string
 
   platform:
     description: 'The platform to build the Docker image for'
     required: true
     # linux/amd64,linux/arm64
     default: 'linux/amd64'
-    type: string
 
   tags:
     description: 'The tags to apply to the Docker image'
     required: false
     default: null
-    type: string
 
   github-token:
     description: 'The GitHub Token for pushing and signing the Docker image'
