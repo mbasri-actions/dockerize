@@ -1,11 +1,12 @@
-name: 'Dockerize'ainer Registry, and Cosign. It ensures secure and versioned deployments for containerized applications.'
+name: 'Dockerize'
+description: 'This GitHub Action automates the process of building, pushing, and signing Docker images. It is designed to work with GitHub Container Registry and supports multi-platform builds.'
 inputs:
-  docker_directory:
+  docker-directory:
     description: 'The directory containing the Dockerfile'
     required: true
     default: '.'
     type: string
-  image_name:
+  image-name:
     description: 'The name of the Docker image'
     required: true
     default: null
@@ -17,7 +18,7 @@ inputs:
     default: 'linux/amd64'
     type: string
 outputs:
-  image_name:
+  image-name:
     description: 'The name of the Docker image'
     value: 'toto'
 
@@ -45,19 +46,19 @@ runs:
       id: meta
       uses: docker/metadata-action@v5.6.1
       with:
-        images: ghcr.io/${{ inputs.image_name }}
+        images: ghcr.io/${{ inputs.image-name }}
 
     - name: Build and push Docker image
       id: build-and-push
       uses: docker/build-push-action@v6.13.0
       with:
-        context: ${{ env.PROMETHEUS_DIRECTORY }}
+        context: ${{ inputs.docker-directory }}
         push: ${{ github.event_name != 'pull_request' }}
         provenance: false
         platforms: {{ inputs.platform }}
         tags: |
           ${{ steps.meta.outputs.tags }}
-          ghcr.io/${{ inputs.image_name }}:latest
+          ghcr.io/${{ inputs.image-name }}:latest
         cache-from: type=gha
         cache-to: type=gha,mode=max
 
@@ -66,6 +67,6 @@ runs:
       env:
         TAGS: |
           ${{ steps.meta.outputs.tags }}
-          ghcr.io/${{ inputs.image_name }}:latest
+          ghcr.io/${{ inputs.image-name }}:latest
         DIGEST: ${{ steps.build-and-push.outputs.digest }}
       run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
