@@ -23,12 +23,6 @@ This GitHub Action automates the process of building, pushing, and signing Docke
 |---------------|--------------------------------------------------|
 | `digest`      | The digest of the pushed Docker image            |
 
-## Environment Variables
-
-| Name                | Description                                      |
-|---------------------|--------------------------------------------------|
-| `REGISTRY`          | The Docker registry to push the image to         |
-
 ## Usage
 
 Here's an example of how to use this action in a GitHub Actions workflow:

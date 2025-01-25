@@ -1,34 +1,35 @@
 name: 'Dockerize'
 description: 'This GitHub Action automates the process of building, pushing, and signing Docker images. It is designed to work with GitHub Container Registry and supports multi-platform builds.'
 inputs:
+
   docker-directory:
     description: 'The directory containing the Dockerfile'
     required: true
     default: '.'
     type: string
+
   image-name:
     description: 'The name of the Docker image'
     required: true
     default: null
     type: string
+
   platform:
     description: 'The platform to build the Docker image for'
     required: true
     # linux/amd64,linux/arm64
     default: 'linux/amd64'
     type: string
+
   tags:
     description: 'The tags to apply to the Docker image'
     required: false
     default: null
     type: string
+
   github-token:
     description: 'The GitHub Token for pushing and signing the Docker image'
     required: true
-outputs:
-  image-name:
-    description: 'The name of the Docker image'
-    value: 'toto'
 
 runs:
   using: 'composite'
