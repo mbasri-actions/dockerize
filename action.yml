@@ -17,6 +17,11 @@ inputs:
     # linux/amd64,linux/arm64
     default: 'linux/amd64'
     type: string
+  tags:
+    description: 'The tags to apply to the Docker image'
+    required: false
+    default: null
+    type: string
   github-token:
     description: 'The GitHub Token for pushing and signing the Docker image'
     required: true
@@ -61,7 +66,7 @@ runs:
         platforms: ${{ inputs.platform }}
         tags: |
           ${{ steps.meta.outputs.tags }}
-          ghcr.io/${{ inputs.image-name }}:latest
+          ghcr.io/${{ inputs.image-name }}:${{ inputs.tags }}
         cache-from: type=gha
         cache-to: type=gha,mode=max
 
@@ -70,7 +75,7 @@ runs:
       env:
         TAGS: |
           ${{ steps.meta.outputs.tags }}
-          ghcr.io/${{ inputs.image-name }}:latest
+          ghcr.io/${{ inputs.image-name }}:${{ inputs.tags }}
         DIGEST: ${{ steps.build-and-push.outputs.digest }}
       shell: bash
       run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
