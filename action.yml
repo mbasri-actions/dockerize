@@ -17,6 +17,9 @@ inputs:
     # linux/amd64,linux/arm64
     default: 'linux/amd64'
     type: string
+  github-token:
+    description: 'The GitHub Token for pushing and signing the Docker image'
+    required: true
 outputs:
   image-name:
     description: 'The name of the Docker image'
@@ -40,7 +43,7 @@ runs:
       with:
         registry: ghcr.io
         username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+        password: ${{ inputs.github-token }}
 
     - name: Extract Docker metadata
       id: meta
