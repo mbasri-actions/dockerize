@@ -1,7 +1,7 @@
 name: 'Dockerize'
 description: 'This GitHub Action automates the process of building, pushing, and signing Docker images. It is designed to work with GitHub Container Registry and supports multi-platform builds.'
+
 inputs:
-  
   registry:
     description: 'The registry to push the Docker image to'
     required: true
@@ -35,7 +35,6 @@ inputs:
 runs:
   using: 'composite'
   steps:
-
     # Install Cosign for signing Docker images
     - name: Install Cosign
       uses: sigstore/cosign-installer@v3.7.0

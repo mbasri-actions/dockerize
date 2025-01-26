@@ -34,7 +34,7 @@ This GitHub Action automates the process of building, pushing, and signing Docke
 
 ## Outputs
 
-No Outputs
+`No Outputs`
 
 ## Usage
 
