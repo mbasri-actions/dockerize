@@ -5,23 +5,36 @@ This GitHub Action automates the process of building, pushing, and signing Docke
 ## Features
 
 - Build Docker images using `docker/build-push-action`
-- Push Docker images to GitHub Container Registry
+- Push Docker images to GitHub [Container Registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry)
 - Sign Docker images using `cosign`
 - Supports multi-platform builds
 - Caching for faster builds
 
+## Requirements
+
+| Name | Version |
+|------|---------|
+| <a name="requirement_sigstore_cosign_installer"></a> [sigstore/cosign-installer](https://github.com/sigstore/cosign-installer) | 3.7.0 |
+| <a name="requirement_docker_setup_qemu_action"></a> [docker/setup-qemu-action](https://github.com/setup-qemu-action) | 3.3.0 |
+| <a name="requirement_docker_setup_buildx_action"></a> [docker/setup-buildx-action](https://github.com/docker/setup-buildx-action) | 3.8.0 |
+| <a name="requirement_docker_login_action"></a> [docker/login-action](#requirement_docker_login_action) | 3.3.0 |
+| <a name="requirement_docker_metadata_action"></a> [docker/metadata-action](https://github.com/docker/login-action) | 5.6.1 |
+| <a name="requirement_docker_build_push_action"></a> [docker/build-push-action](https://github.com/docker/build-push-action) | 6.13.0 |
+
 ## Inputs
 
-| Name          | Description                                                                               | Default       |
-|---------------|-------------------------------------------------------------------------------------------|---------------|
-| `image_name`  | The name of the Docker image to build and push                                            | `null`    |
-| `platform`    | The target platforms for the Docker image (available value: 'linux/amd64', 'linux/arm64') | `linux/amd64` |
+| Name | Description | Required | Default |
+| --- | --- | --- | --- |
+| <a name="input_registry"></a> [registry](#input_registry) | The registry to push the Docker image to | true | `ghcr.io` |
+| <a name="input_docker_directory"></a> [docker-directory](#input_docker_directory) | The directory containing the Dockerfile | true | `.` |
+| <a name="input_image_name"></a> [image-name](#input_image_name) | The name of the Docker image | true | `null` |
+| <a name="input_platform"></a> [platform](#input_platform) | The platform to build the Docker image for | true | `linux/amd64` |
+| <a name="input_tags"></a> [tags](#input_tags) | The tags to apply to the Docker image | false | `null` |
+| <a name="input_github_token"></a> [github-token](#input_github_token) | The GitHub Token for pushing and signing the Docker image | true | `null` |
 
 ## Outputs
 
-| Name          | Description                                      |
-|---------------|--------------------------------------------------|
-| `digest`      | The digest of the pushed Docker image            |
+No Outputs
 
 ## Usage
 
@@ -43,12 +56,16 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@main
+        uses: actions/checkout@v4
       - name: build-push-sign-docker
-        uses: mbasri-actions/dockerize@main
+        uses: mbasri-actions/dockerize@v1.0.0
         with:
-          docker_directory: '.'
-          image_name: 'my-image'
+          registry: ghcr.io
+          github-token: 'abc123'
+          docker-directory: '.'
+          image-name: 'my-image'
+          tags: |
+            ghcr.io/my-image:dev
 ```
 
 ## Author
